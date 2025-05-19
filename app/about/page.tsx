@@ -117,11 +117,14 @@ export default function AboutPage() {
               >
                 <Image
                   src="https://i.ibb.co/b9PJCKp/487921174-18366443533121794-1195605337076468221-n.jpg"
-                  alt="Profile portrait"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    alt="Profile portrait"
+                    fill
+                    priority
+                    crossOrigin="anonymous"
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
               </motion.div>
             </motion.div>
