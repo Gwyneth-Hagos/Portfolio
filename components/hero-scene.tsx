@@ -26,7 +26,7 @@ function Model({ position = [0, 0, 0], ...props }) {
 
   return (
     <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-      <mesh ref={meshRef} position={position} {...props}>
+      <mesh ref={meshRef} position={new THREE.Vector3(position[0], position[1], position[2])} {...props}>
         <dodecahedronGeometry args={[1.4, 0]} />
         <meshStandardMaterial 
           color="#ec4899" 
