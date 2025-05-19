@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 
 // Define letter widths for proper spacing
-const letterWidths = {
+const letterWidths: { [key: string]: number } = {
   'C': 0.5, 'o': 0.4, 'd': 0.4, 'e': 0.4, 'W': 0.6, 
   'i': 0.2, 't': 0.3, 'h': 0.4, 'G': 0.5, 'w': 0.5, 'y': 0.4
 };
@@ -174,7 +174,8 @@ function Letter({ letter, index, isAssembling, isBursting, isGlitching }: Letter
   // Calculate proper horizontal position based on letter widths
   let xOffset = -2.5; // Start position (centered)
   for (let i = 0; i < index; i++) {
-    xOffset += letterWidths[letters[i]] || 0.4;
+    const char = letters[i];
+    xOffset += letterWidths[char] || 0.4;
   }
   
   const finalPosition = [xOffset, 0, 0];
