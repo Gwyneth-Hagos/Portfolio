@@ -8,7 +8,7 @@ export function MainContent({ children }: { children: React.ReactNode }) {
   
   useEffect(() => {
     // Listen for storage event to sync with loading screen
-    const handleStorageChange = (e) => {
+    const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'loadingComplete' && e.newValue === 'true') {
         setIsLoading(false);
         setIsVisible(true);
