@@ -45,10 +45,14 @@ const burstDirections = [
   [-10, -15, 5]   // y burst direction
 ];
 
-function FlashEffect({ isFlashing }) {
-  const outerRef = useRef();
-  const innerRef = useRef();
-  const raysRef = useRef();
+interface FlashEffectProps {
+  isFlashing: boolean;
+}
+
+function FlashEffect({ isFlashing }: FlashEffectProps) {
+  const outerRef = useRef<THREE.Mesh>(null);
+  const innerRef = useRef<THREE.Mesh>(null);
+  const raysRef = useRef<THREE.Group>(null);
   const [opacity, setOpacity] = useState(0);
   
   useEffect(() => {
@@ -154,10 +158,18 @@ function FlashEffect({ isFlashing }) {
   );
 }
 
-function Letter({ letter, index, isAssembling, isBursting, isGlitching }) {
-  const ref = useRef();
+interface LetterProps {
+  letter: string;
+  index: number;
+  isAssembling: boolean;
+  isBursting: boolean;
+  isGlitching: boolean;
+}
+
+function Letter({ letter, index, isAssembling, isBursting, isGlitching }: LetterProps) {
+  const ref = useRef<THREE.Mesh>(null);
   const startPosition = useRef(entryDirections[index]);
-  const materialRef = useRef();
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
   
   // Calculate proper horizontal position based on letter widths
   let xOffset = -2.5; // Start position (centered)
@@ -260,7 +272,7 @@ function Letter({ letter, index, isAssembling, isBursting, isGlitching }) {
   return (
     <mesh
       ref={ref}
-      position={startPosition.current}
+      position={new THREE.Vector3(startPosition.current[0], startPosition.current[1], startPosition.current[2])}
     >
       <Text3D
         font="/fonts/Roboto_Bold.json"
@@ -282,7 +294,11 @@ function Letter({ letter, index, isAssembling, isBursting, isGlitching }) {
   );
 }
 
-function ScatteringText({ isBursting }) {
+interface ScatteringTextProps {
+  isBursting: boolean;
+}
+
+function ScatteringText({ isBursting }: ScatteringTextProps) {
   const [isAssembling, setIsAssembling] = useState(false);
   const [isGlitching, setIsGlitching] = useState(false);
   
