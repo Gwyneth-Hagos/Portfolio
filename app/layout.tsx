@@ -5,6 +5,7 @@ import { Providers } from './providers'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Cursor } from '@/components/cursor'
+import { LoadingScreen } from '@/components/loading-screen'
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.variable} font-sans antialiased`}>
         <Providers>
+          <LoadingScreen />
           <Cursor />
           <div className="flex min-h-screen flex-col">
             <Header />
