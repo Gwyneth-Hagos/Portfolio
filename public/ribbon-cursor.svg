@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left loop -->
+  <path d="M8,10 C8,6 12,4 14,8 C16,12 12,16 8,10 Z" fill="#ec4899"/>
+  
+  <!-- Right loop -->
+  <path d="M24,10 C24,6 20,4 18,8 C16,12 20,16 24,10 Z" fill="#ec4899"/>
+  
+  <!-- Center knot -->
+  <circle cx="16" cy="12" r="3" fill="#db2777"/>
+  
+  <!-- Left tail -->
+  <path d="M14,14 L8,24 L10,26 L16,16 Z" fill="#ec4899"/>
+  
+  <!-- Right tail -->
+  <path d="M18,14 L24,24 L22,26 L16,16 Z" fill="#ec4899"/>
+  
+  <!-- Highlights -->
+  <path d="M10,8 C10,7 12,6 13,8 L12,10 L10,8 Z" fill="#fbcfe8"/>
+  <path d="M22,8 C22,7 20,6 19,8 L20,10 L22,8 Z" fill="#fbcfe8"/>
+</svg>
