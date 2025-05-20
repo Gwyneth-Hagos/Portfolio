@@ -1,11 +1,10 @@
 'use client'
 
-import { useRef } from 'react'
-import { useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { useRef, useEffect } from 'react'
+import { useMotionValue, useSpring, useTransform, motion, animate } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { motion } from 'framer-motion'
 import { Github, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 
@@ -39,27 +38,42 @@ export function ProjectCard({
   const xSpring = useSpring(x, springConfig)
   const ySpring = useSpring(y, springConfig)
   
-  // Rotate Card based on mouse position
-  const rotateX = useTransform(ySpring, [-0.5, 0.5], ['7deg', '-7deg'])
-  const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-7deg', '7deg'])
+  // Enhanced 3D transforms
+  const rotateX = useTransform(ySpring, [-0.5, 0.5], ['15deg', '-15deg'])
+  const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-15deg', '15deg'])
+  const scale = useMotionValue(1)
+  const brightness = useMotionValue(0.75)
   
   // Handle mouse move on the card
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return
     
     const rect = cardRef.current.getBoundingClientRect()
-    
-    // Calculate normalized mouse position from -0.5 to 0.5
     const xValue = (e.clientX - rect.left) / rect.width - 0.5
     const yValue = (e.clientY - rect.top) / rect.height - 0.5
     
     x.set(xValue)
     y.set(yValue)
+    brightness.set(1)
   }
   
   const handleMouseLeave = () => {
     x.set(0)
     y.set(0)
+    brightness.set(0.75)
+    animate(scale, 1, springConfig)
+  }
+
+  const handleMouseEnter = () => {
+    animate(scale, 1.05, springConfig)
+  }
+
+  const handleClick = () => {
+    animate(scale, [1.05, 0.95, 1.05], {
+      duration: 0.4,
+      type: "spring",
+      stiffness: 400
+    })
   }
 
   return (
@@ -67,60 +81,98 @@ export function ProjectCard({
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onClick={handleClick}
       style={{
         rotateX,
         rotateY,
+        scale,
         transformStyle: 'preserve-3d',
       }}
-      whileHover={{ scale: 1.03 }}
       className="group cursor-pointer perspective-1000"
     >
-      <Card className="relative h-full overflow-hidden bg-secondary/30 backdrop-blur-sm transition-all duration-200 group-hover:h-auto">
-        <div 
-          className="absolute -inset-px z-10 rounded-lg bg-gradient-to-r from-primary/50 to-primary/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+      <Card className="relative h-full overflow-hidden bg-secondary/30 backdrop-blur-sm transition-all duration-300">
+        <motion.div 
+          className="absolute -inset-px z-10 rounded-lg bg-gradient-to-r from-primary/50 to-primary/10"
+          style={{
+            opacity: useTransform(scale, [1, 1.05], [0, 1]),
+          }}
         />
         
-        <div className="relative h-48 overflow-hidden bg-black">
+        <motion.div 
+          className="relative h-48 overflow-hidden bg-black"
+          style={{
+            filter: `brightness(${brightness.get()})`,
+          }}
+        >
           <Image
             src={image}
             alt={title}
             fill
-            className="object-cover brightness-75 transition-all duration-200 group-hover:scale-105 group-hover:brightness-100"
+            className="object-cover transition-all duration-300"
           />
-        </div>
+        </motion.div>
         
         <CardHeader className="relative z-20">
-          <h3 className="text-xl font-bold tracking-tight">{title}</h3>
+          <motion.h3 
+            className="text-xl font-bold tracking-tight"
+            style={{ translateZ: 50 }}
+          >
+            {title}
+          </motion.h3>
         </CardHeader>
         
         <CardContent className="relative z-20 space-y-4">
           {role && (
-            <p className="text-sm font-medium text-primary">{role}</p>
+            <motion.p 
+              className="text-sm font-medium text-primary"
+              style={{ translateZ: 30 }}
+            >
+              {role}
+            </motion.p>
           )}
           
-          <div className="group-hover:opacity-100 opacity-0 transition-all duration-300 max-h-0 group-hover:max-h-[500px] overflow-hidden">
+          <motion.div 
+            className="opacity-0 transition-all duration-300 max-h-0 group-hover:max-h-[500px] group-hover:opacity-100"
+            style={{ translateZ: 40 }}
+          >
             <p className="text-sm text-muted-foreground whitespace-pre-line pt-2">{description}</p>
-          </div>
+          </motion.div>
           
-          <div className="flex flex-wrap gap-2">
+          <motion.div 
+            className="flex flex-wrap gap-2"
+            style={{ translateZ: 30 }}
+          >
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="border border-primary/20">
+              <Badge 
+                key={tag} 
+                variant="secondary" 
+                className="border border-primary/20 transition-all duration-300 hover:scale-110"
+              >
                 {tag}
               </Badge>
             ))}
-          </div>
+          </motion.div>
         </CardContent>
         
         <CardFooter className="relative z-20 flex justify-between">
           {githubUrl && (
-            <Button size="sm" variant="ghost" className="gap-1">
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="gap-1 transition-transform duration-300 hover:scale-110"
+            >
               <Github className="h-4 w-4" />
               Code
             </Button>
           )}
           
           {liveUrl && (
-            <Button size="sm" variant="outline" className="gap-1 hover-glow">
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="gap-1 hover-glow transition-transform duration-300 hover:scale-110"
+            >
               <ExternalLink className="h-4 w-4" />
               View Project
             </Button>

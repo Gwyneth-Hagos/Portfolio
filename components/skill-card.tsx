@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 
@@ -15,26 +15,25 @@ interface SkillCardProps {
 export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   
-  // Mouse position values
+  // Motion values
   const x = useMotionValue(0)
   const y = useMotionValue(0)
+  const scale = useMotionValue(1)
+  const progressValue = useMotionValue(0)
   
-  // Smooth spring animation
+  // Spring animations
   const springConfig = { damping: 25, stiffness: 300 }
   const xSpring = useSpring(x, springConfig)
   const ySpring = useSpring(y, springConfig)
   
-  // Rotate Card based on mouse position
-  const rotateX = useTransform(ySpring, [-0.5, 0.5], ['7deg', '-7deg'])
-  const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-7deg', '7deg'])
+  // Enhanced 3D transforms
+  const rotateX = useTransform(ySpring, [-0.5, 0.5], ['15deg', '-15deg'])
+  const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-15deg', '15deg'])
   
-  // Handle mouse move on the card
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return
     
     const rect = cardRef.current.getBoundingClientRect()
-    
-    // Calculate normalized mouse position from -0.5 to 0.5
     const xValue = (e.clientX - rect.left) / rect.width - 0.5
     const yValue = (e.clientY - rect.top) / rect.height - 0.5
     
@@ -42,9 +41,26 @@ export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardPr
     y.set(yValue)
   }
   
+  const handleMouseEnter = () => {
+    animate(scale, 1.05, springConfig)
+    animate(progressValue, level, {
+      duration: 1,
+      ease: "easeOut"
+    })
+  }
+  
   const handleMouseLeave = () => {
     x.set(0)
     y.set(0)
+    animate(scale, 1, springConfig)
+  }
+
+  const handleClick = () => {
+    animate(scale, [1.05, 0.95, 1.05], {
+      duration: 0.4,
+      type: "spring",
+      stiffness: 400
+    })
   }
 
   return (
@@ -52,34 +68,49 @@ export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardPr
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onClick={handleClick}
       style={{
         rotateX,
         rotateY,
+        scale,
         transformStyle: 'preserve-3d',
       }}
-      whileHover={{ scale: 1.05, z: 30 }}
       className="group cursor-pointer perspective-1000"
     >
       <Card className="relative h-full overflow-hidden border border-primary/20 bg-secondary/30 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 pop-out-card">
         <CardContent className="p-6">
-          <div className="flex flex-col items-center space-y-4">
-            <div 
-              className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-4xl text-primary transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(236,72,153,0.5)]"
-              style={{ transform: 'translateZ(20px)' }}
+          <motion.div 
+            className="flex flex-col items-center space-y-4"
+            style={{ translateZ: 50 }}
+          >
+            <motion.div 
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-4xl text-primary"
+              whileHover={{ rotate: 360, scale: 1.2 }}
+              transition={{ duration: 0.5 }}
+              style={{ translateZ: 75 }}
             >
               {icon}
-            </div>
+            </motion.div>
             
-            <h3 className="text-center text-xl font-bold transition-all duration-300 group-hover:text-primary">{title}</h3>
+            <motion.h3 
+              className="text-center text-xl font-bold transition-all duration-300 group-hover:text-primary"
+              style={{ translateZ: 50 }}
+            >
+              {title}
+            </motion.h3>
             
-            <div className="w-full pt-2">
-              <Progress value={level} className="h-2" />
+            <motion.div 
+              className="w-full pt-2"
+              style={{ translateZ: 25 }}
+            >
+              <Progress value={progressValue.get()} className="h-2" />
               <div className="mt-1 flex justify-between text-xs text-muted-foreground">
                 <span>Beginner</span>
                 <span>Expert</span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </CardContent>
       </Card>
     </motion.div>
