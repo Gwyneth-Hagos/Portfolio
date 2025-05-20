@@ -9,14 +9,8 @@ import { MotionConfig } from 'framer-motion'
 
 function Model({ position = [0, 0, 0], ...props }) {
   const meshRef = useRef<THREE.Mesh>(null)
-  const { camera } = useThree()
   
-  useEffect(() => {
-    if (camera) {
-      camera.position.set(0, 0, 5)
-    }
-  }, [camera])
-
+  // Move camera setup to the Canvas component
   useFrame((state) => {
     if (!meshRef.current) return
     
@@ -42,7 +36,7 @@ function Model({ position = [0, 0, 0], ...props }) {
 
 function Particles({ count = 200 }) {
   const mesh = useRef<THREE.InstancedMesh>(null)
-  const { viewport, camera } = useThree()
+  const { viewport } = useThree()
   
   useEffect(() => {
     if (!mesh.current) return

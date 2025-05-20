@@ -214,9 +214,9 @@ function Letter({ letter, index, isAssembling, isBursting, isGlitching }: Letter
     } else if (isAssembling) {
       if (!bounced) {
         // First bounce to a random mid-position
-        ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, midPosition[0], 0.05);
-        ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, midPosition[1], 0.05);
-        ref.current.position.z = THREE.MathUtils.lerp(ref.current.position.z, midPosition[2], 0.05);
+        ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, midPosition[0], 0.1);
+        ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, midPosition[1], 0.1);
+        ref.current.position.z = THREE.MathUtils.lerp(ref.current.position.z, midPosition[2], 0.1);
         
         // Check if we're close enough to the mid position
         const dist = Math.sqrt(
@@ -229,9 +229,9 @@ function Letter({ letter, index, isAssembling, isBursting, isGlitching }: Letter
         }
       } else {
         // Then bounce to final position
-        ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, finalPosition[0], 0.1);
-        ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, finalPosition[1], 0.1);
-        ref.current.position.z = THREE.MathUtils.lerp(ref.current.position.z, finalPosition[2], 0.1);
+        ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, finalPosition[0], 0.2);
+        ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, finalPosition[1], 0.2);
+        ref.current.position.z = THREE.MathUtils.lerp(ref.current.position.z, finalPosition[2], 0.2);
         
         // Check if we're close enough to the final position
         const dist = Math.sqrt(
@@ -300,22 +300,17 @@ interface ScatteringTextProps {
 }
 
 function ScatteringText({ isBursting }: ScatteringTextProps) {
-  const [isAssembling, setIsAssembling] = useState(false);
+  // Start assembling immediately when component mounts
+  const [isAssembling, setIsAssembling] = useState(true);
   const [isGlitching, setIsGlitching] = useState(false);
   
   useEffect(() => {
-    // Start assembly animation immediately
-    const timer = setTimeout(() => {
-      setIsAssembling(true);
-    }, 300);
-    
-    // Start glitching effect after letters have had time to assemble
+    // Start glitching effect after a short delay
     const glitchTimer = setTimeout(() => {
       setIsGlitching(true);
-    }, 2500);
+    }, 1000);
     
     return () => {
-      clearTimeout(timer);
       clearTimeout(glitchTimer);
     };
   }, []);
@@ -353,33 +348,33 @@ export function LoadingScreen() {
   const [showingFlash, setShowingFlash] = useState(false);
 
   useEffect(() => {
+    // Text animation starts immediately (handled in ScatteringText component)
+    
     // Set up progress bar animation
     const interval = setInterval(() => {
       setProgress(prev => {
         // Increment progress
-        const newProgress = Math.min(prev + 3, 100);
+        const newProgress = Math.min(prev + 5, 100);
         
-        // If we just reached 100%, wait a moment then start the burst
+        // Only trigger burst animation when progress reaches 100%
         if (newProgress === 100 && prev !== 100) {
           setTimeout(() => {
             setShowingFlash(true);
             setIsBursting(true);
             setIsFlashing(true);
             
-            // End loading after a shorter burst animation
+            // End loading after burst animation
             setTimeout(() => {
-              // Signal to main content that loading is complete
               localStorage.setItem('loadingComplete', 'true');
-              // Dispatch storage event for other components to detect
               window.dispatchEvent(new Event('storage'));
               setLoading(false);
             }, 600);
-          }, 500); // Wait 500ms after reaching 100% before starting burst
+          }, 300);
         }
         
         return newProgress;
       });
-    }, 150);
+    }, 80);
 
     return () => {
       clearInterval(interval);
