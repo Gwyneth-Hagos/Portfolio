@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -14,12 +14,12 @@ interface SkillCardProps {
 
 export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const [currentProgress, setCurrentProgress] = useState(0)
   
   // Motion values
   const x = useMotionValue(0)
   const y = useMotionValue(0)
   const scale = useMotionValue(1)
-  const progressValue = useMotionValue(0)
   
   // Spring animations
   const springConfig = { damping: 25, stiffness: 300 }
@@ -29,6 +29,25 @@ export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardPr
   // Enhanced 3D transforms
   const rotateX = useTransform(ySpring, [-0.5, 0.5], ['15deg', '-15deg'])
   const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-15deg', '15deg'])
+  
+  // Initialize progress value on mount
+  useEffect(() => {
+    // Start from 0
+    setCurrentProgress(0)
+    
+    // Animate to the target level
+    const timeout = setTimeout(() => {
+      animate(0, level, {
+        duration: 1.5,
+        ease: "easeOut",
+        onUpdate: (latest) => {
+          setCurrentProgress(latest)
+        }
+      })
+    }, 100)
+    
+    return () => clearTimeout(timeout)
+  }, [level])
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return
@@ -43,10 +62,6 @@ export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardPr
   
   const handleMouseEnter = () => {
     animate(scale, 1.05, springConfig)
-    animate(progressValue, level, {
-      duration: 1,
-      ease: "easeOut"
-    })
   }
   
   const handleMouseLeave = () => {
@@ -104,7 +119,7 @@ export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardPr
               className="w-full pt-2"
               style={{ translateZ: 25 }}
             >
-              <Progress value={progressValue.get()} className="h-2" />
+              <Progress value={currentProgress} className="h-2" />
               <div className="mt-1 flex justify-between text-xs text-muted-foreground">
                 <span>Beginner</span>
                 <span>Expert</span>

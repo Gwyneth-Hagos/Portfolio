@@ -235,7 +235,7 @@ export default function Home() {
                 <SkillCard
                   icon={<Globe />}
                   title="JavaScript"
-                  level={85}
+                  level={75}
                 />
               </motion.div>
               <motion.div
@@ -247,7 +247,7 @@ export default function Home() {
                 <SkillCard
                   icon={<Layout />}
                   title="React.js"
-                  level={80}
+                  level={75}
                 />
               </motion.div>
               <motion.div
@@ -259,7 +259,7 @@ export default function Home() {
                 <SkillCard
                   icon={<Cpu />}
                   title="PHP"
-                  level={75}
+                  level={55}
                 />
               </motion.div>
             </div>

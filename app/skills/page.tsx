@@ -72,7 +72,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<TerminalSquare />}
                     title="Java"
-                    level={20}
+                    level={35}
                   />
                 </motion.div>
                 
@@ -80,7 +80,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Cpu />}
                     title="PHP"
-                    level={75}
+                    level={55}
                   />
                 </motion.div>
                 
@@ -88,7 +88,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Globe />}
                     title="JavaScript"
-                    level={85}
+                    level={75}
                   />
                 </motion.div>
                 
@@ -96,7 +96,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Layout />}
                     title="HTML & CSS"
-                    level={90}
+                    level={75}
                   />
                 </motion.div>
                 
@@ -104,7 +104,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<PenTool />}
                     title="TailwindCSS"
-                    level={85}
+                    level={75}
                   />
                 </motion.div>
                 
@@ -112,7 +112,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Layout />}
                     title="React.js"
-                    level={80}
+                    level={75}
                   />
                 </motion.div>
                 
@@ -120,7 +120,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Smartphone />}
                     title="Flutter"
-                    level={30}
+                    level={15}
                   />
                 </motion.div>
                 
@@ -128,7 +128,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Server />}
                     title="Node.js"
-                    level={75}
+                    level={65}
                   />
                 </motion.div>
                 
@@ -136,7 +136,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Database />}
                     title="MySQL"
-                    level={80}
+                    level={55}
                   />
                 </motion.div>
                 
@@ -144,7 +144,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<Database />}
                     title="Firebase & MongoDB"
-                    level={70}
+                    level={45}
                   />
                 </motion.div>
                 
@@ -160,7 +160,7 @@ export default function SkillsPage() {
                   <SkillCard
                     icon={<PenTool />}
                     title="Adobe Creative Suite"
-                    level={75}
+                    level={35}
                   />
                 </motion.div>
               </motion.div>
