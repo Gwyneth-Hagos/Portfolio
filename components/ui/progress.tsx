@@ -18,14 +18,16 @@ const Progress = React.forwardRef<
   React.useEffect(() => {
     if (typeof value === 'number') {
       setProgress(value)
-    } else {
-      // Handle MotionValue
-      const unsubscribe = value.onChange(latest => {
+    } else if (value && typeof value === 'object' && 'onChange' in value && typeof value.onChange === 'function') {
+      // Handle MotionValue safely
+      const unsubscribe = value.onChange((latest: number) => {
         setProgress(latest)
       })
       
-      // Initialize with current value
-      setProgress(value.get())
+      // Initialize with current value if get method exists
+      if ('get' in value && typeof value.get === 'function') {
+        setProgress(value.get())
+      }
       
       return () => unsubscribe()
     }
