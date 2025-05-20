@@ -217,7 +217,7 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
           return (
             <motion.span
               key={index}
-              className="inline-block"
+              className={stage === 1 ? 'letter-glitch' : ''}
               initial={{ 
                 x: `${startPos.x}vw`, 
                 y: `${startPos.y}vh`,
@@ -272,7 +272,6 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
                 fontSize: stage === 1 ? '3rem' : '2rem',
                 textShadow: stage === 1 ? '0 0 10px #ec4899, 0 0 20px #ec4899' : 'none',
               }}
-              className={stage === 1 ? 'letter-glitch' : ''}
             >
               {letter}
             </motion.span>
