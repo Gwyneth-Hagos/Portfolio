@@ -5,7 +5,6 @@ import { Providers } from './providers'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Cursor } from '@/components/cursor'
-import { MainContent } from '@/components/main-content'
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
