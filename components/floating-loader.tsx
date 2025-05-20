@@ -133,35 +133,50 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
       }
       
       // Update and draw binary digits
-      binaryDigitsRef.current.forEach((digit, index) => {
-        // Update glitch timer
-        digit.glitchTimer--;
-        
-        // Randomly change value and reset timer
-        if (digit.glitchTimer <= 0) {
-          digit.value = Math.random() > 0.5 ? '1' : '0';
-          digit.glitchTimer = Math.random() * 100 + 20;
-          
-          // Occasionally change opacity for blinking effect
-          if (Math.random() > 0.7) {
-            digit.opacity = Math.random() * 0.7 + 0.1;
-          }
-        }
-        
-        // Draw digit with glow
-        ctx.font = `${digit.size}px monospace`;
-        ctx.fillStyle = `rgba(236, 72, 153, ${digit.opacity})`;
-        ctx.shadowColor = 'rgba(236, 72, 153, 0.8)';
-        ctx.shadowBlur = 10;
-        ctx.fillText(digit.value, digit.x, digit.y);
-        ctx.shadowBlur = 0;
-        
-        // Occasionally move digit position
-        if (frameCount % 120 === 0 && Math.random() > 0.8) {
-          digit.x = Math.random() * canvas.width;
-          digit.y = Math.random() * canvas.height;
-        }
-      });
+binaryDigitsRef.current.forEach((digit, index) => {
+  // Update glitch timer
+  digit.glitchTimer--;
+  
+  // Randomly change value and reset timer - increased frequency
+  if (digit.glitchTimer <= 0) {
+    digit.value = Math.random() > 0.5 ? '1' : '0';
+    digit.glitchTimer = Math.random() * 50 + 10; // Shorter timer for more frequent changes
+    
+    // More frequent opacity changes for blinking effect
+    digit.opacity = Math.random() * 0.7 + 0.3; // Higher minimum opacity
+  }
+  
+  // Add continuous floating movement
+  digit.x += Math.sin(frameCount * 0.01 + index) * 0.5;
+  digit.y += Math.cos(frameCount * 0.01 + index * 0.5) * 0.3;
+  
+  // Wrap around edges
+  if (digit.x < 0) digit.x = canvas.width;
+  if (digit.x > canvas.width) digit.x = 0;
+  if (digit.y < 0) digit.y = canvas.height;
+  if (digit.y > canvas.height) digit.y = 0;
+  
+  // Occasional size pulsing
+  if (frameCount % 30 === 0 && Math.random() > 0.7) {
+    digit.size = Math.random() * (window.innerWidth < 768 ? 12 : 16) + 
+                (window.innerWidth < 768 ? 8 : 10);
+  }
+  
+  // Draw digit with glow
+  ctx.font = `${digit.size}px monospace`;
+  ctx.fillStyle = `rgba(236, 72, 153, ${digit.opacity})`;
+  ctx.shadowColor = 'rgba(236, 72, 153, 0.8)';
+  ctx.shadowBlur = 10;
+  ctx.fillText(digit.value, digit.x, digit.y);
+  ctx.shadowBlur = 0;
+  
+  // Completely random repositioning occasionally
+  if (frameCount % 180 === 0 && Math.random() > 0.95) {
+    digit.x = Math.random() * canvas.width;
+    digit.y = Math.random() * canvas.height;
+  }
+});
+
       
       animationId = requestAnimationFrame(animate);
     };

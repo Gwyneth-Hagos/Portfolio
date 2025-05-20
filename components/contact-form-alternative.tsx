@@ -20,6 +20,9 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>
 
+// Web3Forms access key
+const WEB3FORMS_ACCESS_KEY = '6d52d653-a4f6-4c03-b6a3-4855d8968cbb';
+
 export function ContactFormAlternative() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   
@@ -36,29 +39,43 @@ export function ContactFormAlternative() {
     setIsSubmitting(true)
     
     try {
-      // Create a mailto link with the form data
+      // Send data using Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          from_page: window.location.href,
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        toast.success('Message sent successfully! I\'ll get back to you soon.');
+        reset();
+      } else {
+        throw new Error(result.message || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      
+      // Fallback to mailto link if Web3Forms fails
       const subject = encodeURIComponent(`Portfolio Contact: ${data.subject}`);
       const body = encodeURIComponent(
         `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}\n\n---\nSent from portfolio contact form`
       );
       
-      // Open the user's default email client with pre-filled data
-      const mailtoLink = `mailto:gwynyhagos@gmail.com?subject=${subject}&body=${body}`;
+      const mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=gwynyhagos@gmail.com&subject=${subject}&body=${body}`;
+      window.open(mailtoLink, '_blank');
       
-      // Create a temporary link element and click it
-      const link = document.createElement('a');
-      link.href = mailtoLink;
-      link.target = '_blank';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Show success message
-      toast.success('Email client opened! Please send the email to complete.');
-      reset();
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('Failed to open email client. Please try again later.');
+      toast.error('Could not send message directly. Email client opened instead.');
     } finally {
       setIsSubmitting(false);
     }

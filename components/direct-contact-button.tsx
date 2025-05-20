@@ -12,7 +12,9 @@ export function DirectContactButton() {
         For the most reliable way to contact me, please email me directly:
       </p>
       <a 
-        href="mailto:gwynyhagos@gmail.com" 
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=gwynyhagos@gmail.com" 
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-block"
       >
         <Button className="gap-2">
