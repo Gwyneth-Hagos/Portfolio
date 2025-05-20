@@ -18,9 +18,24 @@ interface BinaryDigit {
 
 export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
   const [stage, setStage] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const text = "CodeWithGwy";
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const binaryDigitsRef = useRef<BinaryDigit[]>([]);
+  
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
   
   // Setup background with binary digits and static effect
   useEffect(() => {
@@ -39,10 +54,10 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     
-    // Create binary digits
+    // Create binary digits - fewer on mobile
     const createBinaryDigits = () => {
       const digits: BinaryDigit[] = [];
-      const digitCount = 50;
+      const digitCount = window.innerWidth < 768 ? 25 : 50;
       
       for (let i = 0; i < digitCount; i++) {
         digits.push({
@@ -50,7 +65,7 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
           y: Math.random() * canvas.height,
           value: Math.random() > 0.5 ? '1' : '0',
           opacity: Math.random() * 0.7 + 0.1,
-          size: Math.random() * 16 + 10,
+          size: Math.random() * (window.innerWidth < 768 ? 12 : 16) + (window.innerWidth < 768 ? 8 : 10),
           glitchTimer: Math.random() * 100
         });
       }
@@ -68,14 +83,15 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
       frameCount++;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw static noise background
+      // Draw static noise background - less dense on mobile
       const imageData = ctx.createImageData(canvas.width, canvas.height);
       const data = imageData.data;
       
       // Create pink static noise effect
       for (let i = 0; i < data.length; i += 4) {
         // Only render some pixels for a sparse effect
-        if (Math.random() > 0.996) {
+        // Higher threshold on mobile = fewer pixels
+        if (Math.random() > (window.innerWidth < 768 ? 0.998 : 0.996)) {
           const intensity = Math.random() * 255;
           // Pink-ish color (R, G, B, A)
           data[i] = 236;     // R
@@ -105,7 +121,7 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
       
       // Glitch effect - occasional horizontal lines
       if (frameCount % 20 === 0 && Math.random() > 0.7) {
-        const numLines = Math.floor(Math.random() * 5) + 1;
+        const numLines = Math.floor(Math.random() * (window.innerWidth < 768 ? 3 : 5)) + 1;
         for (let i = 0; i < numLines; i++) {
           const y = Math.random() * canvas.height;
           const height = Math.random() * 2 + 1;
@@ -209,7 +225,8 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
           const startPos = getRandomOutsidePosition();
           
           // Calculate final position based on letter index
-          const letterWidth = 30; // approximate width in pixels
+          // Smaller letter width on mobile
+          const letterWidth = isMobile ? 20 : 30; 
           const totalWidth = text.length * letterWidth;
           const startX = -(totalWidth / 2) + (letterWidth / 2);
           const finalX = startX + (index * letterWidth);
@@ -269,7 +286,7 @@ export function FloatingLoader({ onLoadingComplete }: FloatingLoaderProps) {
               style={{ 
                 color: '#ec4899',
                 fontWeight: 'bold',
-                fontSize: stage === 1 ? '3rem' : '2rem',
+                fontSize: isMobile ? (stage === 1 ? '1.5rem' : '1rem') : (stage === 1 ? '3rem' : '2rem'),
                 textShadow: stage === 1 ? '0 0 10px #ec4899, 0 0 20px #ec4899' : 'none',
               }}
             >
