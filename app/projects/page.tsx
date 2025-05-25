@@ -1,6 +1,9 @@
 'use client'
 
-import { HorizontalProjectGallery } from '@/components/horizontal-project-gallery'
+import { useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import VanillaTilt from 'vanilla-tilt';
+import { HorizontalProjectGallery } from '@/components/horizontal-project-gallery';
 
 const mockProjects = [
   {
@@ -50,12 +53,71 @@ const mockProjects = [
 ];
 
 export default function ProjectsPage() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorDotRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    const cursorDot = cursorDotRef.current;
+    
+    if (!cursor || !cursorDot) return;
+
+    const moveCursor = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      
+      // Animate the outer ring
+      cursor.style.transform = `translate(${clientX - cursor.offsetWidth / 2}px, ${clientY - cursor.offsetHeight / 2}px)`;
+      
+      // Animate the inner dot with a slight delay for a trailing effect
+      requestAnimationFrame(() => {
+        cursorDot.style.transform = `translate(${clientX - cursorDot.offsetWidth / 2}px, ${clientY - cursorDot.offsetHeight / 2}px)`;
+      });
+    };
+
+    // Handle cursor entering/leaving interactive elements
+    const handleInteraction = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const isInteractive = target.closest('a, button, [role="button"]');
+      
+      if (isInteractive) {
+        cursor.classList.add('scale-150');
+        cursorDot.classList.add('opacity-0');
+      } else {
+        cursor.classList.remove('scale-150');
+        cursorDot.classList.remove('opacity-0');
+      }
+    };
+
+    document.addEventListener('mousemove', moveCursor);
+    document.addEventListener('mouseover', handleInteraction);
+
+    return () => {
+      document.removeEventListener('mousemove', moveCursor);
+      document.removeEventListener('mouseover', handleInteraction);
+    };
+  }, []);
+
   return (
     <div className="relative pt-20">
+      {/* Custom Cursor */}
+      <div 
+        ref={cursorRef}
+        className="pointer-events-none fixed z-50 h-8 w-8 rounded-full border border-primary transition-transform duration-150 ease-out"
+      />
+      <div 
+        ref={cursorDotRef}
+        className="pointer-events-none fixed z-50 h-2 w-2 rounded-full bg-primary transition-transform duration-100 ease-out"
+      />
+
       {/* Projects Gallery */}
-      <section className="h-screen">
+      <motion.section 
+        className="h-screen"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
         <HorizontalProjectGallery projects={mockProjects} />
-      </section>
+      </motion.section>
     </div>
-  )
+  );
 }
