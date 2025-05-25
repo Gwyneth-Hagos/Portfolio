@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Github, Linkedin, Mail } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Image from 'next/image';
+
 
 export function Footer() {
   return (

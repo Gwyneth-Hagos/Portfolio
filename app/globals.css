@@ -482,3 +482,464 @@
     clip: rect(93px, 9999px, 51px, 0);
   }
 }
+/* Project Carousel Styles */
+.project-carousel {
+  perspective: 1200px;
+}
+
+.project-carousel-item {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.project-carousel-item:hover {
+  transform: translateZ(20px) scale(1.03);
+}
+
+.carousel-nav-button {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.carousel-nav-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+}
+/* Enhanced Project Carousel Styles */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.project-card:hover {
+  transform: translateZ(30px) scale(1.05);
+  box-shadow: 
+    0 0 0 2px rgba(236, 72, 153, 0.3),
+    0 15px 30px -5px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(236, 72, 153, 0.5);
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg, 
+    rgba(236, 72, 153, 0.2) 0%, 
+    rgba(139, 92, 246, 0.1) 50%, 
+    rgba(236, 72, 153, 0.2) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+.neon-border {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: absolute;
+  background-color: rgba(236, 72, 153, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float-particle 3s ease-in-out infinite;
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.8);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.project-card:hover .sparkle {
+  opacity: 1;
+}
+/* Enhanced Project Carousel Effects */
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ec4899;
+  top: -10px;
+  opacity: 0;
+  animation: confetti 3s ease-in-out forwards;
+}
+
+@keyframes confetti {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.particle {
+  position: absolute;
+  background-color: rgba(236, 72, 153, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes particle-burst {
+  0% { transform: translate(0, 0) scale(0); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) scale(1); opacity: 0; }
+}
+
+.card-glow {
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 30px rgba(236, 72, 153, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.7), 0 0 40px rgba(236, 72, 153, 0.4);
+}
+/* Tech Logo Animation */
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.tech-logo-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.tech-logo-slider {
+  display: flex;
+  animation: slide 15s linear infinite;
+}
+
+.tech-logo {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.tech-logo img {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+/* Holographic Typewriter Effect */
+.holographic-typewriter {
+  position: relative;
+  color: #fff;
+  text-shadow: 
+    0 0 5px rgba(236, 72, 153, 0.8),
+    0 0 10px rgba(236, 72, 153, 0.5),
+    0 0 15px rgba(236, 72, 153, 0.3);
+  animation: holographic-pulse 3s infinite alternate;
+}
+
+.holographic-typewriter::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(8px);
+  background: linear-gradient(
+    45deg,
+    rgba(236, 72, 153, 0.5),
+    rgba(124, 58, 237, 0.5),
+    rgba(59, 130, 246, 0.5)
+  );
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-shift 5s ease infinite;
+}
+
+@keyframes holographic-pulse {
+  0% {
+    text-shadow: 
+      0 0 5px rgba(236, 72, 153, 0.8),
+      0 0 10px rgba(236, 72, 153, 0.5);
+  }
+  100% {
+    text-shadow: 
+      0 0 10px rgba(236, 72, 153, 0.8),
+      0 0 20px rgba(236, 72, 153, 0.5),
+      0 0 30px rgba(236, 72, 153, 0.3);
+  }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* Enhanced Holographic Typewriter Effect */
+.holographic-typewriter {
+  position: relative;
+  color: #fff;
+  text-shadow: 
+    0 0 5px rgba(236, 72, 153, 0.8),
+    0 0 10px rgba(236, 72, 153, 0.5),
+    0 0 15px rgba(236, 72, 153, 0.3);
+  animation: holographic-pulse 3s infinite alternate;
+}
+
+.holographic-typewriter::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 2px;
+  height: 100%;
+  background-color: #ec4899;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+[data-text]::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(8px);
+  background: linear-gradient(
+    45deg,
+    rgba(236, 72, 153, 0.5),
+    rgba(124, 58, 237, 0.5),
+    rgba(59, 130, 246, 0.5)
+  );
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-shift 5s ease infinite;
+}
+
+@keyframes holographic-pulse {
+  0% {
+    text-shadow: 
+      0 0 5px rgba(236, 72, 153, 0.8),
+      0 0 10px rgba(236, 72, 153, 0.5);
+  }
+  100% {
+    text-shadow: 
+      0 0 10px rgba(236, 72, 153, 0.8),
+      0 0 20px rgba(236, 72, 153, 0.5),
+      0 0 30px rgba(236, 72, 153, 0.3);
+  }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* Fixed Holographic Typewriter Effect */
+.holographic-typewriter {
+  position: relative;
+  color: #fff;
+  text-shadow: 
+    0 0 5px rgba(236, 72, 153, 0.8),
+    0 0 10px rgba(236, 72, 153, 0.5),
+    0 0 15px rgba(236, 72, 153, 0.3);
+  animation: holographic-pulse 3s infinite alternate;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.holographic-typewriter + h2 {
+  line-height: 1.2;
+  display: inline-block;
+}
+/* Gradient Word Text Effect */
+.gradient-word {
+  background-size: 300% 100%;
+  background-position: 0% center;
+  transition: background-position 0.5s ease;
+}
+
+.gradient-word:hover {
+  animation-play-state: paused;
+  background-position: 100% center;
+}
+/* Custom Tooltip Animation */
+.recharts-tooltip-wrapper {
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+  pointer-events: none;
+}
+
+.recharts-tooltip-wrapper.recharts-tooltip-wrapper-right {
+  transform: translateX(8px);
+}
+
+.recharts-tooltip-wrapper.recharts-tooltip-wrapper-left {
+  transform: translateX(-8px);
+}
+
+.recharts-tooltip-wrapper.recharts-tooltip-wrapper-top {
+  transform: translateY(-8px);
+}
+
+.recharts-tooltip-wrapper.recharts-tooltip-wrapper-bottom {
+  transform: translateY(8px);
+}
+
+.recharts-default-tooltip {
+  transition: all 0.2s ease-in-out;
+  animation: tooltipFadeIn 0.3s forwards;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* Radar Background Animation */
+@keyframes pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}
+
+.radar-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0) 70%);
+  animation: pulse 4s infinite;
+  pointer-events: none;
+}
+/* Project Card Staggered Animation */
+.project-card-container {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-container {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+/* Horizontal Project Gallery Styles */
+.container-fluid {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Custom scrollbar for horizontal project gallery */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(236, 72, 153, 0.5);
+  border-radius: 3px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.8);
+}
+
+/* Project panel transitions */
+.project-panel {
+  transition: all 0.3s ease;
+}
+
+.project-panel.active {
+  opacity: 1;
+  filter: grayscale(0);
+  transform: scale(1.02);
+}
+
+.project-panel:not(.active) {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.project-panel:hover {
+  opacity: 1;
+  filter: grayscale(0);
+}

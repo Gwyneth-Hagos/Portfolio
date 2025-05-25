@@ -15,6 +15,7 @@ interface SkillCardProps {
 export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [currentProgress, setCurrentProgress] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
   
   // Motion values
   const x = useMotionValue(0)
@@ -61,10 +62,12 @@ export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardPr
   }
   
   const handleMouseEnter = () => {
+    setIsHovered(true)
     animate(scale, 1.05, springConfig)
   }
   
   const handleMouseLeave = () => {
+    setIsHovered(false)
     x.set(0)
     y.set(0)
     animate(scale, 1, springConfig)
@@ -101,8 +104,8 @@ export function SkillCard({ icon, title, level, color = '#ec4899' }: SkillCardPr
           >
             <motion.div 
               className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-4xl text-primary"
-              whileHover={{ rotate: 360, scale: 1.2 }}
-              transition={{ duration: 0.5 }}
+              animate={isHovered ? { rotate: 360 } : { rotate: 0 }}
+              transition={{ duration: 1, ease: "easeInOut" }}
               style={{ translateZ: 75 }}
             >
               {icon}

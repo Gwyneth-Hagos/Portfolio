@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { SkillCard } from '@/components/skill-card'
+import { SkillsRadarChart } from '@/components/skills-radar-chart'
 
 // Import icons
 import {
@@ -57,10 +58,11 @@ export default function SkillsPage() {
         </div>
       </section>
 
-      {/* Skills Grid */}
+      {/* Skills Grid with Radar Chart */}
       <section className="pb-24">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {/* Left side: Skills Grid */}
             <div className="lg:col-span-2">
               <motion.div
                 variants={container}
@@ -166,60 +168,19 @@ export default function SkillsPage() {
               </motion.div>
             </div>
             
+            {/* Right side: Skills Radar Chart */}
             <div className="lg:col-span-1">
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="bg-secondary/30 p-6 rounded-lg border border-primary/20 h-full"
+                className="sticky top-24 p-6"
               >
-                <h2 className="text-2xl font-bold mb-6 gradient-text">Skills Overview</h2>
-                
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-xl font-bold">Programming Languages</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground mt-2">
-                      <li>Java</li>
-                      <li>PHP</li>
-                      <li>JavaScript</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-xl font-bold">Frontend Development</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground mt-2">
-                      <li>HTML, CSS</li>
-                      <li>TailwindCSS, SCSS</li>
-                      <li>React.js</li>
-                      <li>Flutter</li>
-                      <li>Vite</li>
-                      <li>Bootstrap</li>
-                      <li>JQuery</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-xl font-bold">Backend Development</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground mt-2">
-                      <li>Node.js</li>
-                      <li>PHP</li>
-                      <li>MySQL</li>
-                      <li>Firebase</li>
-                      <li>MongoDB</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-xl font-bold">Design Tools</h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground mt-2">
-                      <li>Blender</li>
-                      <li>Figma</li>
-                      <li>Notion</li>
-                      <li>Adobe Creative Suite</li>
-                      <li>Canva</li>
-                    </ul>
-                  </div>
-                </div>
+                <h2 className="mb-2 text-2xl font-bold">Skills Breakdown</h2>
+                <p className="mb-4 text-sm text-muted-foreground">
+                  This radar chart visualizes my proficiency across different technologies used in my projects.
+                </p>
+                <SkillsRadarChart />
               </motion.div>
             </div>
           </div>

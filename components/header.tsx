@@ -7,6 +7,8 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { NavBackground } from '@/components/nav-background'
+import Image from 'next/image';
+
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -51,7 +53,14 @@ export function Header() {
               scale: 1.05,
               transition: { type: "spring", stiffness: 400 }
             }}
-          >
+            >
+          <Image 
+            src="/favicon/favicon-32x32.png"
+            alt="CodeWithGwy Logo"
+            width={32}
+            height={32}
+            className="inline-block mr-2"
+            />
             Code<span>WithGwy</span>
           </motion.span>
         </Link>

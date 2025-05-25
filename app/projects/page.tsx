@@ -1,8 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { ProjectCard } from '@/components/project-card'
+import { HorizontalProjectGallery } from '@/components/horizontal-project-gallery'
 
 const mockProjects = [
   {
@@ -14,7 +12,7 @@ const mockProjects = [
     tags: ['React.js', 'TypeScript', 'TailwindCSS', 'Vite', 'Firebase'],
     githubUrl: '#',
     liveUrl: '#',
-    category: 'web',
+    category: 'Web Application',
   },
   {
     id: 2,
@@ -25,7 +23,7 @@ const mockProjects = [
     tags: ['JavaScript', 'Node.js', 'React Native', 'Expo Go', 'Android Studio'],
     githubUrl: '#',
     liveUrl: '#',
-    category: 'mobile',
+    category: 'Mobile App',
   },
   {
     id: 3,
@@ -36,7 +34,7 @@ const mockProjects = [
     tags: ['HTML', 'CSS', 'React.js', 'PHP', 'Bootstrap', 'jQuery'],
     githubUrl: '#',
     liveUrl: '#',
-    category: 'web',
+    category: 'Web Application',
   },
   {
     id: 4,
@@ -47,77 +45,16 @@ const mockProjects = [
     tags: ['Figma'],
     githubUrl: '#',
     liveUrl: '#',
-    category: 'design',
+    category: 'UI/UX Design',
   }
 ];
 
-undefined
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 export default function ProjectsPage() {
-  const projects = mockProjects;
-
   return (
     <div className="relative pt-20">
-      {/* Header */}
-      <section className="py-16 md:py-24">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mx-auto max-w-3xl text-center"
-          >
-            <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-              My <span className="gradient-text">Projects</span>
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              A showcase of my humble student projects
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-
-
-      {/* Projects Grid */}
-      <section className="pb-24">
-        <div className="container">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {projects.map((project) => (
-              <motion.div key={project.id} variants={item}>
-                <ProjectCard
-                  title={project.title}
-                  role={project.role}
-                  description={project.description}
-                  image={project.image}
-                  tags={project.tags}
-                  githubUrl={project.githubUrl}
-                  liveUrl={project.liveUrl}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+      {/* Projects Gallery */}
+      <section className="h-screen">
+        <HorizontalProjectGallery projects={mockProjects} />
       </section>
     </div>
   )

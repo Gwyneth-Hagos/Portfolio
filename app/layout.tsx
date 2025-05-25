@@ -12,10 +12,16 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap'
 })
 
-export const metadata: Metadata = {
-  title: 'CodeWithGwy',
-  description: 'Portfolio showcasing my skills and projects as an aspiring full stack developer',
-}
+// app/layout.tsx
+export const metadata = {
+  title: 'Code With Gwy',
+  description: 'Personal portfolio showcasing my projects and skills',
+  icons: {
+    icon: '/favicon/favicon.ico',
+    apple: '/favicon/apple-touch-icon.png',
+  },
+};
+
 
 export default function RootLayout({
   children,
@@ -37,3 +43,4 @@ export default function RootLayout({
     </html>
   )
 }
+

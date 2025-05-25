@@ -3,11 +3,13 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { HeroScene } from '@/components/hero-scene'
-import { ProjectCard } from '@/components/project-card'
+import { ProjectCarousel } from '@/components/project-carousel'
 import { SkillCard } from '@/components/skill-card'
 import { TypewriterEffect } from '@/components/typewriter-effect'
 import { GlitchText } from '@/components/glitch-text'
 import { HoverRevealText } from '@/components/hover-reveal-text'
+import { WordGlow } from '@/components/word-glow'
+import { HolographicTitle } from '@/components/holographic-title'
 import { ArrowDown, ArrowRight, Github, LinkedinIcon, Mail, Download, Code, Database, Layout, Globe, Cpu } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -167,20 +169,29 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col justify-center"
             >
-              <h2 className="mb-4 text-3xl font-bold text-3d">About Me</h2>
+              <HolographicTitle text="About Me" className="mb-4 text-3xl font-bold" />
               <motion.div 
                 className="space-y-4 text-muted-foreground perspective-1000 preserve-3d"
                 whileHover={{ rotateX: 5, rotateY: 2 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
                 <p>
-                  Hey! I'm <HoverRevealText text="Gwyneth" /> — a third-year <HoverRevealText text="Computer Science student" /> who loves building things that make life easier (and prettier ✨). I dabble in both <HoverRevealText text="frontend" /> and <HoverRevealText text="backend dev" />, and I'm aiming to become a <HoverRevealText text="full-stack developer" /> and future <HoverRevealText text="Project Manager" />.
+                  <WordGlow 
+                    text="Hey! I'm Gwyneth — a third-year Computer Science student who loves building things that make life easier (and prettier ✨). I dabble in both frontend and backend dev, and I'm aiming to become a full-stack developer and future Project Manager."
+                    speed={300}
+                  />
                 </p>
                 <p>
-                  When I'm not coding, you'll find me leading <HoverRevealText text="marketing campaigns" />, attending local <HoverRevealText text="tech events" />, or unapologetically simping for 2D men.
+                  <WordGlow 
+                    text="When I'm not coding, you'll find me leading marketing campaigns, attending local tech events, or unapologetically simping for 2D men."
+                    speed={350}
+                  />
                 </p>
                 <p>
-                  Basically? I mix <HoverRevealText text="logic" />, <HoverRevealText text="creativity" />, and a healthy dose of <HoverRevealText text="aesthetic chaos" /> into everything I do.
+                  <WordGlow 
+                    text="Basically? I mix logic, creativity, and a healthy dose of aesthetic chaos into everything I do."
+                    speed={400}
+                  />
                 </p>
               </motion.div>
               <div className="mt-8 flex flex-wrap gap-4">
@@ -219,7 +230,7 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-12 text-center"
             >
-              <h2 className="mb-4 text-3xl font-bold">My Skills</h2>
+              <HolographicTitle text="My Skills" className="mb-4 text-3xl font-bold" />
               <p className="mx-auto max-w-2xl text-muted-foreground">
                 A comprehensive overview of my technical expertise and capabilities
               </p>
@@ -287,15 +298,9 @@ export default function Home() {
             className="preserve-3d"
           >
             <div className="mb-12 text-center">
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="mb-2 text-3xl font-bold sm:text-4xl"
-              >
-                Featured Projects
-              </motion.h2>
+              <div className="mb-2 text-3xl font-bold sm:text-4xl">
+                <HolographicTitle text="Featured Projects" className="inline-block" />
+              </div>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -307,34 +312,43 @@ export default function Home() {
               </motion.p>
             </div>
           
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <ProjectCard
-                title="E-Commerce Platform"
-                description="A full-stack e-commerce platform built with Next.js, TypeScript, and Stripe integration for payments."
-                image="https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                tags={['Next.js', 'TypeScript', 'Stripe', 'Tailwind']}
-                githubUrl="#"
-                liveUrl="#"
-              />
-              
-              <ProjectCard
-                title="Social Media Dashboard"
-                description="An interactive dashboard that visualizes social media analytics and engagement metrics."
-                image="https://images.pexels.com/photos/5717666/pexels-photo-5717666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                tags={['React', 'D3.js', 'Firebase', 'Chakra UI']}
-                githubUrl="#"
-                liveUrl="#"
-              />
-              
-              <ProjectCard
-                title="Weather App"
-                description="A beautiful weather application with 3D visualizations of current and forecasted weather conditions."
-                image="https://images.pexels.com/photos/3888151/pexels-photo-3888151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                tags={['React', 'Three.js', 'OpenWeather API']}
-                githubUrl="#"
-                liveUrl="#"
-              />
-            </div>
+            <ProjectCarousel 
+              projects={[
+                {
+                  title: "Silan Appointment System",
+                  description: "Designed and developed an online dental appointment system to streamline bookings and minimize no-shows. Enhanced patient experience by implementing responsive design and intuitive user flows.",
+                  image: "https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                  tags: ['React.js', 'TypeScript', 'TailwindCSS', 'Vite', 'Firebase'],
+                  githubUrl: "#",
+                  liveUrl: "#"
+                },
+                {
+                  title: "TaskMate: A Student Task Tracker App",
+                  description: "Developed TaskMate, a productivity and task management app designed for high school and college students to organize academic work, manage deadlines, and enhance time management skills.",
+                  image: "https://images.pexels.com/photos/5717666/pexels-photo-5717666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                  tags: ['JavaScript', 'Node.js', 'React Native', 'Expo Go', 'Android Studio'],
+                  githubUrl: "#",
+                  liveUrl: "#"
+                },
+                {
+                  title: "Vape Shop Inventory Management System",
+                  description: "Developed an online inventory management system for a vape shop to enhance stock tracking, oversee sales, and manage products. This system enables shop owners to effectively handle inventory and monitor stock levels in real-time.",
+                  image: "https://images.pexels.com/photos/3888151/pexels-photo-3888151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                  tags: ['HTML', 'CSS', 'React.js', 'PHP', 'Bootstrap', 'jQuery'],
+                  githubUrl: "#",
+                  liveUrl: "#"
+                },
+                {
+                  title: "AiSenso - BPI Datawave 2024 Hackathon",
+                  description: "Led concept development for an AI-driven platform supporting rural Filipino MSMEs with digital marketing and e-commerce tools. Developed a user-centric prototype, ensuring accessibility for entrepreneurs with limited digital literacy.",
+                  image: "https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                  tags: ['Figma'],
+                  githubUrl: "#",
+                  liveUrl: "#"
+                }
+              ]}
+              className="mx-auto max-w-5xl"
+            />
             
             <div className="mt-12 text-center">
               <Link href="/projects">
@@ -359,7 +373,7 @@ export default function Home() {
             className="mx-auto max-w-3xl rounded-lg border border-primary/20 bg-secondary/30 p-8 text-center shadow-lg backdrop-blur-md preserve-3d"
             whileHover={{ scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)" }}
           >
-            <h2 className="mb-4 text-3xl font-bold">Let's Work Together</h2>
+            <HolographicTitle text="Let's Work Together" className="mb-4 text-3xl font-bold" />
             <p className="mb-8 text-muted-foreground">
               Have a project in mind? I'm currently available for freelance work.
             </p>
